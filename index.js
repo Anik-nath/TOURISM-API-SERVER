@@ -66,14 +66,4 @@ app.listen(port, () => {
           res.json(result);
       })
 
-
-
-        //single api
-      app.get('/donations/:id',async (req,res)=>{
-        const id = req.params.id;
-        // console.log(id);
-        const query = {_id: ObjectId(id)};
-        const result  = await toursCollection.findOne(query);
-        res.json(result);
-      })
 */
