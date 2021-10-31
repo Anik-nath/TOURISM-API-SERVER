@@ -21,12 +21,19 @@ async function run() {
     const database = client.db("traveldb");
     const toursCollection = database.collection("tours");
     const destinationsCollection = database.collection("destinations");
+    const bookedCollection = database.collection("booked");
 
     //tours data
     app.get("/tours", async (req, res) => {
       const cursor = toursCollection.find({});
       const donations = await cursor.toArray();
       res.send(donations);
+    });
+    //booked data
+    app.get("/booked", async (req, res) => {
+      const cursor = bookedCollection.find({});
+      const booked = await cursor.toArray();
+      res.send(booked);
     });
     //single tour
     app.get("/tours/:id", async (req, res) => {
@@ -41,6 +48,14 @@ async function run() {
       const donations = await cursor.toArray();
       res.send(donations);
     });
+    //booking data
+    app.post("/booked",async(req,res)=>{
+      const booked = req.body;
+      const result = await bookedCollection.insertOne(booked);
+      res.json(result);
+    })
+
+
   } finally {
     //   await client.close();
   }
@@ -57,14 +72,6 @@ app.listen(port, () => {
 
 /* 
 
-         //post api
-      app.post('/tours',async (req,res)=>{
-          const donation = req.body;
-          console.log("hit the post",donation);
-          const result = await toursCollection.insertOne(donation);
-          console.log(result);
-          res.json(result);
-          fgfd
-      })
+     
 
 */
