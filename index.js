@@ -26,8 +26,8 @@ async function run() {
     //tours data
     app.get("/tours", async (req, res) => {
       const cursor = toursCollection.find({});
-      const donations = await cursor.toArray();
-      res.send(donations);
+      const tours = await cursor.toArray();
+      res.send(tours);
     });
     //booked data
     app.get("/booked", async (req, res) => {
@@ -45,8 +45,8 @@ async function run() {
     // destinations data
     app.get("/destinations", async (req, res) => {
       const cursor = destinationsCollection.find({});
-      const donations = await cursor.toArray();
-      res.send(donations);
+      const destinations = await cursor.toArray();
+      res.send(destinations);
     });
     //booking data
     app.post("/booked",async(req,res)=>{
@@ -54,7 +54,14 @@ async function run() {
       const result = await bookedCollection.insertOne(booked);
       res.json(result);
     })
-
+    
+    //single booking
+    app.get("/booked/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await bookedCollection.findOne(query);
+      res.json(result);
+    });
 
   } finally {
     //   await client.close();
